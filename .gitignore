@@ -32,3 +32,4 @@ target/
 *.iml
 out
 gen
+.DS_Store
