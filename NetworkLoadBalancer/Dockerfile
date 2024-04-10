@@ -1,6 +1,6 @@
 FROM amazoncorretto:17.0.8-alpine3.18
 VOLUME /tmp
-ARG JAR_FILE=target/DemoWebsite-1.0-SNAPSHOT.jar
+ARG JAR_FILE=target/NetworkLoadBalancer-1.0-SNAPSHOT-jar-with-dependencies.jar
 COPY ${JAR_FILE} app.jar
-EXPOSE 8080
+EXPOSE 2333
 ENTRYPOINT ["java","-jar","/app.jar"]
