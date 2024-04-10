@@ -18,7 +18,7 @@ public class Worker extends Thread{
     @Override
     public void run() {
         try{
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1];
             while(inputStream.read(buffer) != -1){
                 clientOutputStream.write(buffer);
                 clientOutputStream.flush();
