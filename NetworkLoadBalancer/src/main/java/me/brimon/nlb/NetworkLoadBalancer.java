@@ -27,8 +27,8 @@ public class NetworkLoadBalancer {
 
     public void start(int port) throws IOException {
         loadConfiguration();
-        System.out.println(GlobalConfiguration.nlbConfiguration.hosts.toString());
-        List<Host> hosts = GlobalConfiguration.nlbConfiguration.hosts;
+        System.out.println(GlobalConfiguration.nlbConfiguration.getHosts().toString());
+        List<Host> hosts = GlobalConfiguration.nlbConfiguration.getHosts();
         Random random = new Random();
         try (ServerSocket serverSocket = new ServerSocket(port)){
             while(true) {
