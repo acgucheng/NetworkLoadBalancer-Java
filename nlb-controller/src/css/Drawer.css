@@ -1,0 +1,26 @@
+/* ItemListItem class with the following properties:
+    - display: flex
+    - justify-content: space-between
+    - padding: 10px 0
+    - border-bottom: 1px solid #f0f0f0
+    - cursor: pointer
+    - transition: background-color 0.3s
+    - &:hover
+        - background-color: #f0f0f0
+*/
+.DrawerItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    color: azure;
+    border-bottom: 1px solid #404040;
+    cursor: pointer;
+}
+
+.DrawerItem:hover {
+    background-color: #404040;
+}
+
+.DrawerItem:active {
+    background-color: #303030;
+}
