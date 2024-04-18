@@ -3,7 +3,7 @@
 ## Get Started
 
 ```bash
-Docker build . -t java-nlb/nlb-website-demo
+Docker build . -t nlb-java/nlb-website-demo
 
 Docker network create \                                                           
   --driver=bridge \
@@ -12,5 +12,5 @@ Docker network create \
   --gateway=172.28.5.254 \
   br0
   
-docker run -d --network=br0 java-nlb/nlb-website-demo 
+docker run -d --network=br0 nlb-java/nlb-website-demo 
 ```

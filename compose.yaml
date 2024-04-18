@@ -1,0 +1,26 @@
+services:
+  web:
+    build: ./nlb-controller
+    ports:
+      - "80:80"
+    networks:
+      - nlb-demo-network
+  nlb:
+    build: ./NetworkLoadBalancer
+    ports:
+      - "2333:2333"
+      - "8080:8080"
+    networks:
+      - nlb-demo-network
+  demo:
+    build: ./DemoWebsite
+    deploy:
+      replicas: 3
+      mode: replicated
+    networks:
+      - nlb-demo-network
+
+# a network created for the services above
+networks:
+  nlb-demo-network:
+    external: true
