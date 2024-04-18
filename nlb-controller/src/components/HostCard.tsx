@@ -5,7 +5,7 @@ import { Card, CardContent, Typography, Button } from '@mui/material';
 import { Host } from '../model/Host';
 import { deleteHost } from '../api/hosts';
 
-export class HostCard extends React.Component<{host: Host}> {
+export class HostCard extends React.Component<{host: Host, onDelete: () => void}> {
     render() {
         return (
             <Card style={{margin:10}}>
@@ -16,7 +16,10 @@ export class HostCard extends React.Component<{host: Host}> {
                     <Typography variant="body2">
                         {this.props.host.health}
                     </Typography>
-                    <Button onClick={() => deleteHost(this.props.host.ip, this.props.host.port)}>Delete</Button>
+                    <Button onClick={() => {
+                        deleteHost(this.props.host.ip, this.props.host.port)
+                        this.props.onDelete()
+                    }}>Delete</Button>
                 </CardContent>
             </Card>
         );

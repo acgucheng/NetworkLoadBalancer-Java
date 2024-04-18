@@ -18,3 +18,7 @@ export const deleteHost = async (ip: string, port: string): Promise<void> => {
         }
     });
 }
+
+export const addHost = async (host: Host): Promise<void> => {
+    await axios.post(`${API_URL}/host`, host);
+};

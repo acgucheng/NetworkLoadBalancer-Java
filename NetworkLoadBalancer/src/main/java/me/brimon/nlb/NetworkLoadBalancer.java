@@ -12,8 +12,28 @@ import java.util.List;
 import java.util.Random;
 
 public class NetworkLoadBalancer {
-    public NetworkLoadBalancer(){
 
+    public static NetworkLoadBalancer currentLoadBalancer;
+    public static NetworkLoadBalancer getCurrentLoadBalancer(){
+        return currentLoadBalancer;
+    }
+
+    public static void reload(){
+        currentLoadBalancer.reloadHosts();
+    }
+
+    public List<Host> hosts;
+
+    private void reloadHosts(){
+        hosts = GlobalConfiguration.nlbConfiguration.getHosts();
+        System.out.println("Host list reloaded, " + hosts.toString());
+    }
+
+    public NetworkLoadBalancer() throws IOException {
+        currentLoadBalancer = this;
+        loadConfiguration();
+        hosts = GlobalConfiguration.nlbConfiguration.getHosts();
+        System.out.println(GlobalConfiguration.nlbConfiguration.getHosts().toString());
     }
 
     private void loadConfiguration() throws IOException {
@@ -26,15 +46,16 @@ public class NetworkLoadBalancer {
     }
 
     public void start(int port) throws IOException {
-        loadConfiguration();
-        System.out.println(GlobalConfiguration.nlbConfiguration.getHosts().toString());
-        List<Host> hosts = GlobalConfiguration.nlbConfiguration.getHosts();
         Random random = new Random();
         try (ServerSocket serverSocket = new ServerSocket(port)){
             while(true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("A new client Socket established");
-                Socket socket = new Socket(hosts.get(random.nextInt(hosts.size())).ip, 8080);
+                int index = random.nextInt(hosts.size());
+                String hostIp = hosts.get(index).ip;
+                Integer hostPort = Integer.valueOf(hosts.get(index).port);
+                System.out.println("Redirecting to " + hostIp + ":" + hostPort);
+                Socket socket = new Socket(hostIp, hostPort);
                 RequestHandler requestHandler = new RequestHandler(clientSocket.getInputStream(), socket.getOutputStream());
                 Worker worker = new Worker(clientSocket, socket);
                 requestHandler.start();

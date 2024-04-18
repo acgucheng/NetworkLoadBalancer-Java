@@ -1,5 +1,6 @@
 package me.brimon.nlb.api.host;
 
+import me.brimon.nlb.NetworkLoadBalancer;
 import me.brimon.nlb.configuration.GlobalConfiguration;
 import me.brimon.nlb.configuration.Host;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,14 @@ public class HostManagement {
     @PostMapping("")
     public List<Host> post(@RequestBody  Host host){
         GlobalConfiguration.nlbConfiguration.getHosts().add(host);
+        NetworkLoadBalancer.reload();
         return GlobalConfiguration.nlbConfiguration.getHosts();
     }
 
     @DeleteMapping
     public List<Host> delete(@RequestBody Host host){
         GlobalConfiguration.nlbConfiguration.deleteHost(host);
+        NetworkLoadBalancer.reload();
         return GlobalConfiguration.nlbConfiguration.getHosts();
     }
 
