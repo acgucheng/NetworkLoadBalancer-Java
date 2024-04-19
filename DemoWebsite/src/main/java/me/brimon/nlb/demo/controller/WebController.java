@@ -14,6 +14,9 @@ public class WebController {
     @GetMapping("/index")
     public String index(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) throws UnknownHostException {
         String ipAddress = Inet4Address.getLocalHost().getHostAddress();
+        if(ipAddress == null){
+            ipAddress = System.getenv("HOSTNAME");
+        }
         model.addAttribute("ipAddress", ipAddress);
         return "index";
     }
