@@ -49,15 +49,15 @@ public class NetworkLoadBalancer {
         Random random = new Random();
         try (ServerSocket serverSocket = new ServerSocket(port)){
             while(true) {
-                Socket clientSocket = serverSocket.accept();
+                Socket clientSocket = null;
                 try{
                     clientSocket = serverSocket.accept();
                     int index = random.nextInt(hosts.size());
                     String hostIp = hosts.get(index).ip;
                     Integer hostPort = Integer.valueOf(hosts.get(index).port);
-                    System.out.println("Redirecting to " + hostIp + ":" + hostPort);
                     Socket socket = new Socket(hostIp, hostPort);
-                    RequestHandler requestHandler = new RequestHandler(clientSocket.getInputStream(), socket.getOutputStream());
+                    System.out.println("Redirecting to " + hostIp + ":" + hostPort);
+                    RequestHandler requestHandler = new RequestHandler(clientSocket, socket);
                     Worker worker = new Worker(clientSocket, socket);
                     requestHandler.start();
                     worker.start();

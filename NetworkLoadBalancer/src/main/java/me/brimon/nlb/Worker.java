@@ -1,5 +1,7 @@
 package me.brimon.nlb;
 
+import ch.qos.logback.core.net.server.Client;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,9 +11,15 @@ public class Worker extends Thread{
 
     InputStream inputStream;
     OutputStream clientOutputStream;
+
+    Socket clientSocket;
+    Socket workloadSocket;
+
     public Worker(Socket clientSocket, Socket workloadSocket) throws IOException {
          inputStream = workloadSocket.getInputStream();
          clientOutputStream = clientSocket.getOutputStream();
+         this.clientSocket = clientSocket;
+         this.workloadSocket = workloadSocket;
 
     }
 
@@ -23,6 +31,9 @@ public class Worker extends Thread{
                 clientOutputStream.write(buffer);
                 clientOutputStream.flush();
             }
+            System.out.println("Worker Closed Connection!");
+            clientSocket.close();
+            workloadSocket.close();
         }catch (Exception e){
             e.printStackTrace();
         }
