@@ -1,0 +1,26 @@
+services:
+  web:
+    image: lyricwang/networkloadbalancer-java-web:v1
+    ports:
+      - "80:80"
+    networks:
+      - nlb-demo-network
+  nlb:
+    image: lyricwang/networkloadbalancer-java-nlb:v1
+    ports:
+      - "2333:2333"
+      - "8080:8080"
+    networks:
+      - nlb-demo-network
+  demo:
+    image: lyricwang/networkloadbalancer-java-demo:v1
+    deploy:
+      replicas: 3
+      mode: replicated
+    networks:
+      - nlb-demo-network
+
+# a network created for the services above
+networks:
+  nlb-demo-network:
+    external: true
