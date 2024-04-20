@@ -28,14 +28,18 @@ public class Worker extends Thread{
         try{
             byte[] buffer = new byte[1];
             while(inputStream.read(buffer) != -1){
-                clientOutputStream.write(buffer);
-                clientOutputStream.flush();
+                try {
+                    clientOutputStream.write(buffer);
+                    clientOutputStream.flush();
+                }catch (Exception e){
+                    System.out.println("Worker Closed Connection!");
+                }
             }
             System.out.println("Worker Closed Connection!");
             clientSocket.close();
             workloadSocket.close();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Client Closed Connection!");
         }
 
     }
