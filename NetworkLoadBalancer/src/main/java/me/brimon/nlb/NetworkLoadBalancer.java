@@ -52,11 +52,8 @@ public class NetworkLoadBalancer {
                 Socket clientSocket = null;
                 try{
                     clientSocket = serverSocket.accept();
-                    int index = random.nextInt(hosts.size());
-                    String hostIp = hosts.get(index).ip;
-                    Integer hostPort = Integer.valueOf(hosts.get(index).port);
-                    Socket socket = new Socket(hostIp, hostPort);
-                    System.out.println("Redirecting to " + hostIp + ":" + hostPort);
+                    Host host = GlobalConfiguration.balancer.getNextHost();
+                    Socket socket = new Socket(host.ip, Integer.parseInt(host.port));
                     RequestHandler requestHandler = new RequestHandler(clientSocket, socket);
                     Worker worker = new Worker(clientSocket, socket);
                     requestHandler.start();
