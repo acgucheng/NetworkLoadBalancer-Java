@@ -3,7 +3,8 @@ import React from 'react';
 import { Host } from '../model/Host';
 import { HostCard } from './HostCard';
 import {addHost, getHosts} from '../api/hosts';
-import {Button, TextField} from '@mui/material';
+import {Button, Card, TextField} from '@mui/material';
+import {BalancerSelector} from "./BalancerSelector";
 
 interface HostManagementPageState {
     hosts: Host[];
@@ -47,16 +48,18 @@ export class HostManagementPage extends React.Component<{},  HostManagementPageS
     render() {
         return (
             <div>
-                <div style={{display: "flex" }}>
-                    <TextField type="text" variant="outlined"  placeholder="ip" value={this.state.hostIp} style={{margin:10}} onChange={(event) => this.setState({hostIp: event.target.value})}/>
-                    <TextField type="text" variant="outlined"  placeholder="port" value={this.state.port} style={{margin:10}} onChange={(event) => this.setState({port:event.target.value})}/>
-                    <Button variant="contained" color="primary" onClick={() => this.addHost()}>Add</Button>
-                </div>
-                <div style={{display: "flex"}}>
-                    {this.state.hosts.map((host: Host) => (
-                        <HostCard host={host} onDelete={() => this.refresh()} />
-                    ))}
-                </div>
+                <Card style={{margin:20, marginTop:0, padding:10, height:"70vh"}}>
+                    <div style={{display: "flex" }}>
+                        <TextField type="text" variant="outlined"  placeholder="ip" value={this.state.hostIp} style={{margin:10}} onChange={(event) => this.setState({hostIp: event.target.value})}/>
+                        <TextField type="text" variant="outlined"  placeholder="port" value={this.state.port} style={{margin:10}} onChange={(event) => this.setState({port:event.target.value})}/>
+                        <Button variant="contained" color="primary" style={{margin:10, minWidth:200}} onClick={() => this.addHost()}>Add</Button>
+                    </div>
+                    <div style={{display: "flex"}}>
+                        {this.state.hosts.map((host: Host) => (
+                            <HostCard host={host} onDelete={() => this.refresh()} />
+                        ))}
+                    </div>
+                </Card>
             </div>
         );
     }

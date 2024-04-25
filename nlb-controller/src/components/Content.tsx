@@ -1,13 +1,33 @@
 /* This is a content react component */
 import React from 'react';
-import { Typography } from '@mui/material';
+import {Card, Typography} from '@mui/material';
 import '../css/Content.css'
 import {HostManagementPage} from "./HostManagementPage";
-export class Content extends React.Component {
+import {BalancerSelector} from "./BalancerSelector";
+
+interface ContentPageState {
+    balancer: string,
+    setBalancer: (balancer: string) => void;
+}
+
+export class Content extends React.Component <{}, ContentPageState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            balancer: "RoundRobin",
+            setBalancer: (balancer : string) => {
+                this.setState({balancer: balancer});
+                alert("Balancer set to " + balancer)
+            }
+        }
+    }
     render() {
         return (
             <div className="Content" style={{flexDirection: "column"}}>
                 <Typography variant="h4" style={{marginTop: 10, marginBottom: 10}}>Host Management</Typography>
+                <Card style={{margin:20, padding: 20}}>
+                    <BalancerSelector style={{margin: 10, marginBottom: 0}} balancer={this.state.balancer} setBalancer={this.state.setBalancer} />
+                </Card>
                 <HostManagementPage />
             </div>
         );
