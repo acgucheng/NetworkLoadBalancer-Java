@@ -4,6 +4,7 @@ import {Card, Typography} from '@mui/material';
 import '../css/Content.css'
 import {HostManagementPage} from "./HostManagementPage";
 import {BalancerSelector} from "./BalancerSelector";
+import {Balancer} from "../api/balancer";
 
 interface ContentPageState {
     balancer: string,
@@ -17,7 +18,13 @@ export class Content extends React.Component <{}, ContentPageState> {
             balancer: "RoundRobin",
             setBalancer: (balancer : string) => {
                 this.setState({balancer: balancer});
-                alert("Balancer set to " + balancer)
+                Balancer.setBalancer(balancer).then(() => {
+                    alert("Balancer is successfully set to: " + balancer);
+                }).catch(
+                    (error) => {
+                        alert("Failed to set balancer: " + error);
+                    }
+                )
             }
         }
     }

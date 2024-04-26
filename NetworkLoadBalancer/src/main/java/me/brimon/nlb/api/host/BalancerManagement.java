@@ -21,6 +21,8 @@ public class BalancerManagement {
             case "Random":
                 GlobalConfiguration.balancer = new RandomBalancer();
                 break;
+            default:
+                throw new RuntimeException("Invalid balancer type");
         }
     }
 
