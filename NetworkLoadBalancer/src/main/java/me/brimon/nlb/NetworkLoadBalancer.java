@@ -46,7 +46,6 @@ public class NetworkLoadBalancer {
     }
 
     public void start(int port) throws IOException {
-        Random random = new Random();
         try (ServerSocket serverSocket = new ServerSocket(port)){
             while(true) {
                 Socket clientSocket = null;
